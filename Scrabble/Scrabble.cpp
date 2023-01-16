@@ -4,7 +4,8 @@ using namespace std;
 
 void Exit()
 {
-
+    cout << "You left the game!";
+    return;
 }
 void AddNewWord()
 {
