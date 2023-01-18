@@ -1,11 +1,8 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
-int roundsCount = 10;
-int availableLettersCount = 10;
-
-void Menu();
 void Exit()
 {
     cout << "You left the game!";
@@ -15,8 +12,9 @@ void AddNewWord()
 {
 
 }
-void ChangeNumOfAvailableLetters()
+void ChangeNumOfAvailableLetters(int& availableLettersCount)
 {
+    cout << "Current available letters per round count: " << availableLettersCount << endl;
     cout << "Insert desired available letters count: ";
     int lettersCount;
     cin >> lettersCount;
@@ -26,10 +24,10 @@ void ChangeNumOfAvailableLetters()
         cout << "You changed the available letters count per round to " << availableLettersCount << endl;
     }
     cout << endl;
-    Menu();
 }
-void ChangeNumOfRounds()
+void ChangeNumOfRounds(int& roundsCount)
 {
+    cout << "Current rounds count: " << roundsCount << endl;
     cout << "Insert desired rounds count: ";
     int roundsCnt;
     cin >> roundsCnt;
@@ -39,9 +37,8 @@ void ChangeNumOfRounds()
         cout << "You changed the rounds count to " << roundsCount << endl;
     }
     cout << endl;
-    Menu();
 }
-void Settings()
+void Settings(int& roundsCount, int& availableLettersCount)
 {
     cout << "Settings menu:" << endl;
     cout << "1. Change number of available letters per round" << endl;
@@ -51,44 +48,51 @@ void Settings()
     cout << endl;
     switch (choice) 
     {
-    case 1: ChangeNumOfAvailableLetters();
+    case 1: ChangeNumOfAvailableLetters(availableLettersCount);
         break;
-    case 2: ChangeNumOfRounds();
+    case 2: ChangeNumOfRounds(roundsCount);
         break;
     default:
         break;
     }
 }
-void NewGame(int lettersPerRound, int rounds)
+void NewGame(int& rounds, int& lettersPerRound)
 {
-
+    // printing (10) random letters in Test\ScrabbleTest
+    //CHECKING IF THE WORD EXISTS IN THE DICTIONARY IN Test\ScrabbleTest
 }
-void Menu()
+bool Menu(int& roundsCount, int& availableLettersCount)
 {
     cout << "Menu:" << endl;
     cout << "1. Start new game" << endl;
     cout << "2. Settings" << endl;
     cout << "3. Add new word" << endl;
     cout << "4. Exit" << endl;
-    int choice;
+    char choice;
     cin >> choice;
     cout << endl;
     switch (choice)
     {
-    case 1: NewGame(availableLettersCount, roundsCount);
+    case '1': NewGame(roundsCount, availableLettersCount);
         break;
-    case 2: Settings();
+    case '2': Settings(roundsCount, availableLettersCount);
         break;
-    case 3: AddNewWord();
+    case '3': AddNewWord();
         break;
-    case 4: Exit();
+    case '4': Exit();
+        return false;
         break;
 
     default:
+        cout << "Wrong input!" << endl << endl;
         break;
     }
+    return true;
 }
 int main()
 {
-    Menu();
+    int roundsCount = 10;
+    int availableLettersCount = 10;
+
+    while (Menu(roundsCount, availableLettersCount));
 }
