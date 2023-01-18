@@ -4,21 +4,20 @@
 using namespace std;
 
 const int CURRENT_AVAILABLE_LETTERS_ARR_SIZE = 100;
+const int MAX_WORD_LENGHT = 100;
 void Exit()
 {
     cout << "You left the game!";
     return;
 }
-void AddNewWord()
-{
 
-}
 void ChangeNumOfAvailableLetters(int& availableLettersCount)
 {
     cout << "Current available letters per round count: " << availableLettersCount << endl;
     cout << "Insert desired available letters count: ";
     int lettersCount;
     cin >> lettersCount;
+    cin.ignore();
     if (lettersCount >= 2 && lettersCount <= 100)
     {
         availableLettersCount = lettersCount;
@@ -36,6 +35,7 @@ void ChangeNumOfRounds(int& roundsCount)
     cout << "Insert desired rounds count: ";
     int roundsCnt;
     cin >>roundsCnt;
+    cin.ignore();
     if (roundsCnt >= 1 && roundsCnt <= 25)
     {
         roundsCount = roundsCnt;
@@ -54,6 +54,7 @@ void Settings(int& roundsCount, int& availableLettersCount)
     cout << "2. Chane number of rounds" << endl;
     char choice;
     cin >> choice;
+    cin.ignore();
     cout << endl;
     switch (choice) 
     {
@@ -145,6 +146,54 @@ void MakeWordAllCaps(char* currentWord)
         i++;
     }
 }
+void GenerateLetters(int lettersPerRound, char* currentAvailableLetters)
+{
+    srand(time(NULL));
+    for (int i = 0; i < lettersPerRound; i++)
+    {
+        char c = 'a' + rand() % 26;
+        currentAvailableLetters[i] = c;
+        cout << " " << c;
+    }
+}
+bool IsWordValid(char* currentWord)
+{
+    ifstream a;
+    a.open("Scrabble Words.txt");
+    bool flag = false;
+    while (!a.eof())
+    {
+        char charArr[1024] = { '\0' };
+        a >> charArr;
+        if (FindWord(currentWord, charArr) == true)
+        {
+            flag = true;
+            break;
+        }
+    }
+    a.close();
+    return flag;
+}
+void AddNewWord()
+{
+    char newWord[MAX_WORD_LENGHT] = {'\0'};
+    cin.getline(newWord, MAX_WORD_LENGHT);
+    MakeWordAllCaps(newWord);
+    if (IsWordValid(newWord))
+    {
+        cout << "This word already exists!" << endl;
+        return;
+    }
+    else
+    {
+        ofstream file;
+        file.open("Scrabble Words.txt",ios::out | ios::app);
+        file << endl << newWord;
+        file.close();
+        cout << "You added the word " << newWord << "!" << endl;
+        return;
+    }
+}
 void NewGame(int& rounds, int& lettersPerRound)
 {
     int points = 0;
@@ -153,14 +202,8 @@ void NewGame(int& rounds, int& lettersPerRound)
         char currentAvailableLetters[CURRENT_AVAILABLE_LETTERS_ARR_SIZE] = { '\0' };
         cout << "Round " << i + 1 << endl;
         cout << "Available letters:";
-        srand(time(NULL));
-        for (int i = 0; i < lettersPerRound; i++)
-        {
-            char c = 'a' + rand() % 26;
-            currentAvailableLetters[i] = c;
-            cout<< " " << c;
-        }
-        char currentWord[CURRENT_AVAILABLE_LETTERS_ARR_SIZE] = { '\0' };
+        GenerateLetters(lettersPerRound, currentAvailableLetters);
+        char currentWord[MAX_WORD_LENGHT] = { '\0' };
         cout << endl << "Type a word using the available letters: ";
         cin.getline(currentWord, CURRENT_AVAILABLE_LETTERS_ARR_SIZE);
         int wordLenght = GetLenght(currentWord);
@@ -171,21 +214,8 @@ void NewGame(int& rounds, int& lettersPerRound)
         }
 
         MakeWordAllCaps(currentWord);
-
-        ifstream a;
-        a.open("Scrabble Words.txt");
-
-        bool flag = false;
-        while (!a.eof())
-        {
-            char charArr[1024] = { '\0' };
-            a >> charArr;
-            if (FindWord(currentWord, charArr) == true)
-            {
-                flag = true;
-                break;
-            }
-        }
+        bool flag = IsWordValid(currentWord);
+       
         if (flag)
         {
             cout << "Valid word! Plus " << wordLenght << " points!" << endl;
@@ -196,7 +226,6 @@ void NewGame(int& rounds, int& lettersPerRound)
         {
             cout << "The word does not exist!" << endl << endl;
         }
-        a.close();
     }
     cout << "Total points: " << points << endl << endl;
     
