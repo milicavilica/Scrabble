@@ -147,11 +147,13 @@ void MakeWordAllCaps(char* currentWord)
 }
 void NewGame(int& rounds, int& lettersPerRound)
 {
+    int points = 0;
     for (int i = 0; i < rounds; i++)
     {
         char currentAvailableLetters[CURRENT_AVAILABLE_LETTERS_ARR_SIZE] = { '\0' };
         cout << "Round " << i + 1 << endl;
         cout << "Available letters:";
+        srand(time(NULL));
         for (int i = 0; i < lettersPerRound; i++)
         {
             char c = 'a' + rand() % 26;
@@ -186,7 +188,9 @@ void NewGame(int& rounds, int& lettersPerRound)
         }
         if (flag)
         {
-            cout << "Valid word! Plus " << wordLenght << " points!" << endl << endl;
+            cout << "Valid word! Plus " << wordLenght << " points!" << endl;
+            points += wordLenght;
+            cout << "Current points: " << points << endl << endl;
         }
         else
         {
@@ -194,6 +198,7 @@ void NewGame(int& rounds, int& lettersPerRound)
         }
         a.close();
     }
+    cout << "Total points: " << points << endl << endl;
     
 }
 bool Menu(int& roundsCount, int& availableLettersCount)
