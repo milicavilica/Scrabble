@@ -1,3 +1,18 @@
+/**
+*
+* Solution to course project #08
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Militsa Toncheva
+* @idnumber 2MI0600216
+* @compiler VC
+*
+* <settings functions>
+*
+*/
+
 #include <iostream>
 #include "Header.h"
 

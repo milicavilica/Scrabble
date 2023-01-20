@@ -1,9 +1,23 @@
 #pragma once
 
+/**
+*
+* Solution to course project #08
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University
+* Winter semester 2022/2023
+*
+* @author Militsa Toncheva
+* @idnumber 2MI0600216
+* @compiler VC
+*
+* <header file>
+*
+*/
 const int CURRENT_AVAILABLE_LETTERS_ARR_SIZE = 100;
 const int MAX_WORD_LENGHT = 100;
 void Exit();
-int PowerFunction();
+int PowerFunction(int n, int k);
 void ChangeNumOfAvailableLetters(int& availableLettersCount);
 void ChangeNumOfRounds(int& roundsCount);
 void Settings(int& roundsCount, int& availableLettersCount);
