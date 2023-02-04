@@ -92,7 +92,7 @@ void MakeWordAllCaps(char* currentWord)
     int i = 0;
     while (currentWord[i] != '\0')
     {
-        if (currentWord[i] >= 97 && currentWord[i] <= 121)
+        if (currentWord[i] >= 97 && currentWord[i] <= 122)
         {
             currentWord[i] -= 32;
         }
